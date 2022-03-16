@@ -1,0 +1,332 @@
+{
+    "streams": [
+        {
+            "stream": {
+                "name": "Transfer",
+                "json_schema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                        "block": { "type": "integer" },
+                        "timestamp": {
+                            "type": "string",
+                            "format": "datetime",
+                            "airbyte_type": "timestamp_without_timezone"
+                        },
+                        "smart_contract_address": { "type": "string" },
+                        "symbol": { "type": "string" },
+                        "sender": { "type": "string" },
+                        "receiver": { "type": "string" },
+                        "value": {
+                            "type": { "type": "string", "airbyte_type": "big_integer" }
+                        }
+                    }
+                },
+                "supported_sync_modes": ["incremental"],
+                "default_cursor_field": ["block"],
+                "namespace": "curve_test"
+            },
+            "sync_mode": "full_refresh",
+            "destination_sync_mode": "overwrite"
+        },
+        {
+            "stream": {
+                "name": "Approval",
+                "json_schema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                    "block": { "type": "integer" },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "datetime",
+                        "airbyte_type": "timestamp_without_timezone"
+                    },
+                    "smart_contract_address": { "type": "string" },
+                    "symbol": { "type": "string" },
+                    "owner": { "type": "string" },
+                    "spender": { "type": "string" },
+                    "value": {
+                        "type": { "type": "string", "airbyte_type": "big_integer" }
+                    }
+                    }
+                },
+                "supported_sync_modes": ["incremental"],
+                "default_cursor_field": ["block"],
+                "namespace": "curve_test"
+                },
+            "sync_mode": "full_refresh",
+            "destination_sync_mode": "overwrite"
+        },
+        {
+            "stream": {
+                "name": "TokenExchange",
+                "json_schema": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "type": "object",
+                    "properties": {
+                    "block": { "type": "integer" },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "datetime",
+                        "airbyte_type": "timestamp_without_timezone"
+                    },
+                    "smart_contract_address": { "type": "string" },
+                    "symbol": { "type": "string" },
+                    "buyer": { "type": "string" },
+                    "sold_id": {
+                        "type": { "type": "string", "airbyte_type": "big_integer" }
+                    },
+                    "tokens_sold": {
+                        "type": { "type": "string", "airbyte_type": "big_integer" }
+                    },
+                    "bought_id": {
+                        "type": { "type": "string", "airbyte_type": "big_integer" }
+                    },
+                    "tokens_bought": {
+                        "type": { "type": "string", "airbyte_type": "big_integer" }
+                    }
+                    }
+                },
+                "supported_sync_modes": ["incremental"],
+                "default_cursor_field": ["block"],
+                "namespace": "curve_test"
+                },
+                "sync_mode": "full_refresh",
+                "destination_sync_mode": "overwrite"
+            },
+        {
+            "stream": {
+            "name": "TokenExchangeUnderlying",
+            "json_schema": {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "type": "object",
+                "properties": {
+                "block": { "type": "integer" },
+                "timestamp": {
+                    "type": "string",
+                    "format": "datetime",
+                    "airbyte_type": "timestamp_without_timezone"
+                },
+                "smart_contract_address": { "type": "string" },
+                "symbol": { "type": "string" },
+                "buyer": { "type": "string" },
+                "sold_id": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                },
+                "tokens_sold": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                },
+                "bought_id": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                },
+                "tokens_bought": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                }
+                }
+            },
+            "supported_sync_modes": ["incremental"],
+            "default_cursor_field": ["block"],
+            "namespace": "curve_test"
+            },
+            "sync_mode": "full_refresh",
+            "destination_sync_mode": "overwrite"
+        },
+        {
+            "stream": {
+            "name": "AddLiquidity",
+            "json_schema": {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "type": "object",
+                "properties": {
+                "block": { "type": "integer" },
+                "timestamp": {
+                    "type": "string",
+                    "format": "datetime",
+                    "airbyte_type": "timestamp_without_timezone"
+                },
+                "smart_contract_address": { "type": "string" },
+                "symbol": { "type": "string" },
+                "provider": { "type": "string" },
+                "token_amounts": { "type": "array" },
+                "fees": { "type": "array" },
+                "invariant": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                },
+                "token_supply": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                }
+                }
+            },
+            "supported_sync_modes": ["incremental"],
+            "default_cursor_field": ["block"],
+            "namespace": "curve_test"
+            },
+            "sync_mode": "full_refresh",
+            "destination_sync_mode": "overwrite"
+        },
+        {
+            "stream": {
+            "name": "RemoveLiquidity",
+            "json_schema": {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "type": "object",
+                "properties": {
+                "block": { "type": "integer" },
+                "timestamp": {
+                    "type": "string",
+                    "format": "datetime",
+                    "airbyte_type": "timestamp_without_timezone"
+                },
+                "smart_contract_address": { "type": "string" },
+                "symbol": { "type": "string" },
+                "provider": { "type": "string" },
+                "token_amounts": { "type": "array" },
+                "fees": { "type": "array" },
+                "token_supply": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                }
+                }
+            },
+            "supported_sync_modes": ["incremental"],
+            "default_cursor_field": ["block"],
+            "namespace": "curve_test"
+            },
+            "sync_mode": "full_refresh",
+            "destination_sync_mode": "overwrite"
+        },
+        {
+            "stream": {
+            "name": "RemoveLiquidityOne",
+            "json_schema": {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "type": "object",
+                "properties": {
+                "block": { "type": "integer" },
+                "timestamp": {
+                    "type": "string",
+                    "format": "datetime",
+                    "airbyte_type": "timestamp_without_timezone"
+                },
+                "smart_contract_address": { "type": "string" },
+                "symbol": { "type": "string" },
+                "provider": { "type": "string" },
+                "token_amount": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                },
+                "coin_amount": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                },
+                "token_supply": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                }
+                }
+            },
+            "supported_sync_modes": ["incremental"],
+            "default_cursor_field": ["block"],
+            "namespace": "curve_test"
+            },
+            "sync_mode": "full_refresh",
+            "destination_sync_mode": "overwrite"
+        },
+        {
+            "stream": {
+            "name": "RemoveLiquidityImbalance",
+            "json_schema": {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "type": "object",
+                "properties": {
+                "block": { "type": "integer" },
+                "timestamp": {
+                    "type": "string",
+                    "format": "datetime",
+                    "airbyte_type": "timestamp_without_timezone"
+                },
+                "smart_contract_address": { "type": "string" },
+                "symbol": { "type": "string" },
+                "provider": { "type": "string" },
+                "token_amounts": { "type": "array" },
+                "fees": { "type": "array" },
+                "invariant": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                },
+                "token_supply": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                }
+                }
+            },
+            "supported_sync_modes": ["incremental"],
+            "default_cursor_field": ["block"],
+            "namespace": "curve_test"
+            },
+            "sync_mode": "full_refresh",
+            "destination_sync_mode": "overwrite"
+        },
+        {
+            "stream": {
+            "name": "RampA",
+            "json_schema": {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "type": "object",
+                "properties": {
+                "block": { "type": "integer" },
+                "timestamp": {
+                    "type": "string",
+                    "format": "datetime",
+                    "airbyte_type": "timestamp_without_timezone"
+                },
+                "smart_contract_address": { "type": "string" },
+                "symbol": { "type": "string" },
+                "old_A": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                },
+                "new_A": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                },
+                "initial_time": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                },
+                "future_time": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                }
+                }
+            },
+            "supported_sync_modes": ["incremental"],
+            "default_cursor_field": ["block"],
+            "namespace": "curve_test"
+            },
+            "sync_mode": "full_refresh",
+            "destination_sync_mode": "overwrite"
+        },
+        {
+            "stream": {
+            "name": "StopRampA",
+            "json_schema": {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "type": "object",
+                "properties": {
+                "block": { "type": "integer" },
+                "timestamp": {
+                    "type": "string",
+                    "format": "datetime",
+                    "airbyte_type": "timestamp_without_timezone"
+                },
+                "smart_contract_address": { "type": "string" },
+                "symbol": { "type": "string" },
+                "A": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                },
+                "t": {
+                    "type": { "type": "string", "airbyte_type": "big_integer" }
+                }
+                }
+            },
+            "supported_sync_modes": ["incremental"],
+            "default_cursor_field": ["block"],
+            "namespace": "curve_test"
+            },
+            "sync_mode": "full_refresh",
+            "destination_sync_mode": "overwrite"
+        }
+    ]
+}
