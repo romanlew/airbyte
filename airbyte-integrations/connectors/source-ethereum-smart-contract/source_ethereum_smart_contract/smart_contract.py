@@ -3,16 +3,55 @@ import logging
 from datetime import datetime
 from web3 import Web3
 
+class Web3Connection(object):
+
+    TIMEOUT = 100
+
+    def __init__(self, connection):
+        self.__connection = connection
+        self._web3_provider = None
+        self._web3_connection = None
+
+    @property
+    def host(self):
+        if 'host' not in self.__connection:
+            raise Exception('No host information found!')
+
+        return self.__connection['host']
+
+    @property
+    def web3_provider(self):
+        if self._web3_provider is None:
+            if 'connection_type' not in self.__connection:
+                raise Exception("No connection type information found ['http', 'ws']!")
+
+            if self.__connection['connection_type'] == 'http':
+                self._web3_provider = Web3.HTTPProvider(endpoint_uri=self.host, request_kwargs={'timeout': self.TIMEOUT})
+            elif self.__connection['connection_type'] == 'ws':
+                self._web3_provider = Web3.WebsocketProvider(endpoint_uri=self.host, websocket_timeout=self.TIMEOUT)
+            else:
+                raise Exception("No valid connection type found ['http', 'ws']!")
+        
+        return self._web3_provider
+
+    @property
+    def web3_connection(self):
+        if self._web3_connection is None:
+            self._web3_connection = Web3(self.web3_provider)
+        
+        return self._web3_connection
+
 
 class SmartContract(object):
     
     CHUNK_OF_BLOCKS = 2000
     
-    def __init__(self, connection, smart_contract_address, abi_file, smart_contract_deployed_at_block=0, logger=None):
-        self._web3_connection = Web3(Web3.HTTPProvider(endpoint_uri=connection, request_kwargs={'timeout': 100}))
+    def __init__(self, connection, smart_contract_address, smart_contract_abi, smart_contract_deployed_at_block=0, logger=None):
+        # w3 = Web3Connection(connection)
+        self._web3_connection = Web3Connection(connection).web3_connection
         self.__smart_contract = None
         self.__smart_contract_address = smart_contract_address
-        self.__abi_file = abi_file
+        self.__smart_contract_abi = smart_contract_abi
         self.__smart_contract_deployed_at_block = smart_contract_deployed_at_block
         self.__logger = logger
         self.__name = None
@@ -33,7 +72,7 @@ class SmartContract(object):
             self.logger.error("Could not retrieve current block height!")
             return False
 
-        self.logger.info(f"Connected: {isConnected} BlockNumber: {blocknumber}")
+        self.logger.info(f"Connection [{isConnected}] with latest block [{blocknumber}]")
 
         return True
 
@@ -42,15 +81,15 @@ class SmartContract(object):
         correct_smart_contract_address = self._web3_connection.isAddress(self.__smart_contract_address)
 
         if not correct_smart_contract_address:
-            self.logger.error("Entered address is not correct [{address}]!".format(address=self.__smart_contract_address))
+            self.logger.error("Entered address is not correct ['{address}']!".format(address=self.__smart_contract_address))
             return False
 
-        self.logger.info("Entered address [{address}] is correct.".format(address=self.__smart_contract_address))
+        self.logger.info("Entered address ['{address}'] is correct.".format(address=self.__smart_contract_address))
 
         return True
     
     def check_abi_file(self) -> bool:
-        smart_contract_abi = json.loads(self.__abi_file)
+        smart_contract_abi = json.loads(self.__smart_contract_abi)
 
         has_events = False
 
@@ -93,7 +132,7 @@ class SmartContract(object):
     @property
     def smart_contract(self):
         if self.__smart_contract is None:
-            self.__smart_contract = self._web3_connection.eth.contract(address=self.__smart_contract_address, abi=self.__abi_file)
+            self.__smart_contract = self._web3_connection.eth.contract(address=self.__smart_contract_address, abi=self.__smart_contract_abi)
         return self.__smart_contract
     
     @property

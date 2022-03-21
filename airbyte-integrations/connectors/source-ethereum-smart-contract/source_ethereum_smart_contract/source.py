@@ -158,9 +158,9 @@ class SourceEthereumSmartContract(AbstractSource):
 
         try:
             smart_contract_args = {
-                "connection": config["connection"],
+                "connection": config["blockchain"]["connection"],
                 "smart_contract_address": config["smart_contract_address"],
-                "abi_file": config["smart_contract_abi"],
+                "smart_contract_abi": config["smart_contract_abi"],
                 "smart_contract_deployed_at_block": config["start_from_block"] if "start_from_block" in config else 0,
                 "logger": logger
             }
@@ -187,9 +187,9 @@ class SourceEthereumSmartContract(AbstractSource):
         :param config: A Mapping of the user input configuration as defined in the connector spec.
         """
         smart_contract_args = {
-            "connection": config["connection"],
+            "connection": config["blockchain"]["connection"],
             "smart_contract_address": config["smart_contract_address"],
-            "abi_file": config["smart_contract_abi"],
+            "smart_contract_abi": config["smart_contract_abi"],
             "smart_contract_deployed_at_block": config["start_from_block"] if "start_from_block" in config else 0
         }
         

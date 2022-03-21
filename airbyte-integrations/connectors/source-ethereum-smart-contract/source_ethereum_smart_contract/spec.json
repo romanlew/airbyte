@@ -2,9 +2,9 @@
   "documentationUrl": "https://docsurl.com",
   "connectionSpecification": {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Ethereum Smartcontract Spec",
+    "title": "EVM Smartcontract Spec",
     "type": "object",
-    "required": ["namespace", "connection", "smart_contract_address", "smart_contract_abi"],
+    "required": ["namespace", "blockchain", "smart_contract_address", "smart_contract_abi"],
     "additionalProperties": false,
     "properties": {
       "namespace": {
@@ -12,13 +12,125 @@
         "title": "Namespace",
         "description": "The Name of the namespace/schema to store events into (should include letters, numbers dash and underscores only)."
       },
-      "connection": {
-        "type": "string",
-        "title": "Ethereum RPC Connection",
-        "description": "Connect to the following Ethereum RPC host.",
-        "pattern": "^http://(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}):(\\d{1,5})",
-        "examples": ["http://127.0.0.1:8545"],
-        "default": "http://192.168.1.100:8545"
+      "blockchain": {
+        "type": "object",
+        "title": "Choose Blockchain",
+        "description": "Choose the Blockchain you want to connect to.",
+        "default": "Ethereum",
+        "oneOf": [
+          {
+            "title": "Ethereum",
+            "required": ["blockchain", "connection"],
+            "properties": {
+              "blockchain": {
+                "type": "string",
+                "title": "Blockchain",
+                "enum": ["Ethereum"],
+                "default": "Ethereum",
+                "const": "Ethereum"
+              },
+              "connection": {
+                "type": "object",
+                "title": "Choose connection type",
+                "default": "HTTP",
+                "oneOf": [
+                  {
+                    "title": "HTTP",
+                    "required": ["connection_type", "host"],
+                    "properties": {
+                      "connection_type": {
+                        "type": "string",
+                        "title": "Connection type",
+                        "enum": ["http"],
+                        "default": "http",
+                        "const": "http"
+                      },
+                      "host": {
+                        "type": "string",
+                        "title": "Enter http RPC endpoint",
+                        "description": "Connect to the following Ethereum RPC host through http."
+                      }
+                    }
+                  },
+                  {
+                    "title": "Websocket",
+                    "required": ["connection_type", "host"],
+                    "properties": {
+                      "connection_type": {
+                        "type": "string",
+                        "title": "Connection type",
+                        "enum": ["ws"],
+                        "default": "ws",
+                        "const": "ws"
+                      },
+                      "host": {
+                        "type": "string",
+                        "title": "Enter websocket RPC endpoint",
+                        "description": "Connect to the following Ethereum RPC host through websocket."
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "title": "Avalanche",
+            "required": ["blockchain", "connection"],
+            "properties": {
+              "blockchain": {
+                "type": "string",
+                "title": "Blockchain",
+                "enum": ["Avalanche"],
+                "default": "Avalanche",
+                "const": "Avalanche"
+              },
+              "connection": {
+                "type": "object",
+                "title": "Choose connection type",
+                "default": "HTTP",
+                "oneOf": [
+                  {
+                    "title": "HTTP",
+                    "required": ["connection_type", "host"],
+                    "properties": {
+                      "connection_type": {
+                        "type": "string",
+                        "title": "Connection type",
+                        "enum": ["http"],
+                        "default": "http",
+                        "const": "http"
+                      },
+                      "host": {
+                        "type": "string",
+                        "title": "Enter http RPC endpoint",
+                        "description": "Connect to the following Avalanche RPC host through http."
+                      }
+                    }
+                  },
+                  {
+                    "title": "Websocket",
+                    "required": ["connection_type", "host"],
+                    "properties": {
+                      "connection_type": {
+                        "type": "string",
+                        "title": "Connection type",
+                        "enum": ["ws"],
+                        "default": "ws",
+                        "const": "ws"
+                      },
+                      "host": {
+                        "type": "string",
+                        "title": "Enter websocket RPC endpoint",
+                        "description": "Connect to the following Avalanche RPC host through websocket."
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
       },
       "smart_contract_address": {
         "type": "string",
@@ -28,7 +140,7 @@
       },
       "smart_contract_abi": {
         "type": "string",
-        "title": "Ethereum Smart Contract ABI",
+        "title": "Smart Contract ABI",
         "description": "Please copy paste ABI file in here.",
         "examples": ["[  { \"constant\": false, \"inputs\": [ { \"name\": \"_spender\", \"type\": \"address\" }, { \"name\": \"_value\", \"type\": \"uint256\" } ], \"name\": \"approve\", \"outputs\": [ { \"name\": \"\", \"type\": \"bool\" } ], \"payable\": false, \"stateMutability\": \"nonpayable\", \"type\": \"function\" }, { \"constant\": true, \"inputs\": [], \"name\": \"totalSupply\", \"outputs\": [ { \"name\": \"\", \"type\": \"uint256\" } ], \"payable\": false, \"stateMutability\": \"view\", \"type\": \"function\" }, { \"constant\": false, \"inputs\": [ { \"name\": \"_from\", \"type\": \"address\" }, { \"name\": \"_to\", \"type\": \"address\" }, { \"name\": \"_value\", \"type\": \"uint256\" } ], \"name\": \"transferFrom\", \"outputs\": [ { \"name\": \"\", \"type\": \"bool\" } ], \"payable\": false, \"stateMutability\": \"nonpayable\", \"type\": \"function\" }, { \"constant\": true, \"inputs\": [], \"name\": \"decimals\", \"outputs\": [ { \"name\": \"\", \"type\": \"uint8\" } ], \"payable\": false, \"stateMutability\": \"view\", \"type\": \"function\" }, { \"constant\": true, \"inputs\": [ { \"name\": \"_owner\", \"type\": \"address\" } ], \"name\": \"balanceOf\", \"outputs\": [ { \"name\": \"balance\", \"type\": \"uint256\" } ], \"payable\": false, \"stateMutability\": \"view\", \"type\": \"function\" }, { \"constant\": true, \"inputs\": [], \"name\": \"symbol\", \"outputs\": [ { \"name\": \"\", \"type\": \"string\" } ], \"payable\": false, \"stateMutability\": \"view\", \"type\": \"function\" }, { \"constant\": false, \"inputs\": [ { \"name\": \"_to\", \"type\": \"address\" }, { \"name\": \"_value\", \"type\": \"uint256\" } ], \"name\": \"transfer\", \"outputs\": [ { \"name\": \"\", \"type\": \"bool\" } ], \"payable\": false, \"stateMutability\": \"nonpayable\", \"type\": \"function\" }, { \"constant\": true, \"inputs\": [ { \"name\": \"_owner\", \"type\": \"address\" }, { \"name\": \"_spender\", \"type\": \"address\" } ], \"name\": \"allowance\", \"outputs\": [ { \"name\": \"\", \"type\": \"uint256\" } ], \"payable\": false, \"stateMutability\": \"view\", \"type\": \"function\" }, { \"payable\": true, \"stateMutability\": \"payable\", \"type\": \"fallback\" }, { \"anonymous\": false, \"inputs\": [ { \"indexed\": true, \"name\": \"owner\", \"type\": \"address\" }, { \"indexed\": true, \"name\": \"spender\", \"type\": \"address\" }, { \"indexed\": false, \"name\": \"value\", \"type\": \"uint256\" } ], \"name\": \"Approval\", \"type\": \"event\" }, { \"anonymous\": false, \"inputs\": [ { \"indexed\": true, \"name\": \"from\", \"type\": \"address\" }, { \"indexed\": true, \"name\": \"to\", \"type\": \"address\" }, { \"indexed\": false, \"name\": \"value\", \"type\": \"uint256\" } ], \"name\": \"Transfer\", \"type\": \"event\" } ]"]
       },

@@ -1,6 +1,6 @@
-# Ethereum Smart Contract Source
+# EVM Smart Contract Source
 
-This is the repository for the Ethereum Smart Contract source connector, written in Python.
+This is the repository for the EVM based Smart Contract source connector, written in Python.
 For information about how to use this connector within Airbyte, see [the documentation](https://docs.airbyte.io/integrations/sources/ethereum-smart-contract).
 
 ## Local development
